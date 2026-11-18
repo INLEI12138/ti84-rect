@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="300" viewBox="0 0 560 300" font-family="DejaVu Sans" font-size="16">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9z" fill="#000"/></marker></defs>
+<rect width="560" height="300" fill="#fff"/>
+<g fill="none" stroke="#000" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
+<path d="M130 128 L130 70 L240 70"/>
+<path d="M276 70 L420 70"/>
+<path d="M350 70 L350 110"/>
+<path d="M350 110 L360 117 L340 131 L360 145 L340 159 L360 173 L340 187 L350 194 L350 240"/>
+<path d="M130 172 L130 240 L420 240"/>
+<path d="M130 240 L130 254 M114 254 L146 254 M120 261 L140 261 M126 268 L134 268"/>
+<path d="M276 55 L276 85"/>
+<circle cx="130" cy="150" r="22"/>
+<path d="M117 150 Q123.5 138 130 150 T143 150"/>
+<circle cx="424" cy="70" r="4"/>
+<circle cx="424" cy="240" r="4"/>
+</g>
+<polygon points="240,55 240,85 276,70" fill="#000"/>
+<circle cx="350" cy="70" r="4.5" fill="#000"/>
+<circle cx="350" cy="240" r="4.5" fill="#000"/>
+<line x1="230" y1="38" x2="285" y2="38" stroke="#000" stroke-width="2" marker-end="url(#ah)"/>
+<text x="258" y="28" text-anchor="middle">i<tspan font-size="12" dy="4">D</tspan></text>
+<text x="258" y="110" text-anchor="middle">D</text>
+<text x="98" y="155" text-anchor="end">v<tspan font-size="12" dy="4">s</tspan></text>
+<text x="98" y="178" text-anchor="end" font-size="13" fill="#555">peak 10 V</text>
+<text x="332" y="156" text-anchor="end">R = 1 kΩ</text>
+<text x="440" y="100">+</text>
+<text x="440" y="160">v<tspan font-size="12" dy="4">o</tspan></text>
+<text x="440" y="222">−</text>
+<text x="280" y="290" text-anchor="middle" font-size="13" fill="#555">HALF-WAVE + (diode reversed = HALF-WAVE −), CVD model VD = 0.7 V</text>
+</svg>

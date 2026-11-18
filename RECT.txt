@@ -1,0 +1,178 @@
+If θ=π:Goto U
+0→θ
+Degree
+Float
+ClrHome
+Menu("RECTIFIER V2","HALF-WAVE +",H1,"HALF-WAVE -",H2,"FULL-WAVE CT",H3,"BRIDGE",H4,"QUIT",QT)
+Lbl QT
+ClrHome
+Stop
+Lbl H1
+1→S
+1→K
+1→J
+Goto IN
+Lbl H2
+⁻1→S
+1→K
+1→J
+Goto IN
+Lbl H3
+1→S
+1→K
+2→J
+Goto IN
+Lbl H4
+1→S
+2→K
+2→J
+Lbl IN
+ClrHome
+Disp "CVD DIODE MODEL","UNITS OK: 10V 1K"
+Input "VS PEAK (V)=",Str1
+π→θ
+prgmRECT
+Ans→P
+0.7→D
+""→Str1
+Input "VD ON (0.7V)=",Str1
+If length(Str1)
+Then
+π→θ
+prgmRECT
+Ans→D
+End
+1000→R
+""→Str1
+Input "R LOAD (1K)=",Str1
+If length(Str1)
+Then
+π→θ
+prgmRECT
+Ans→R
+End
+If P≤0 or R≤0 or D<0
+Then
+Disp "CHECK INPUTS"
+Stop
+End
+KD→B
+If B≥P
+Then
+Disp "NEVER CONDUCTS"
+Stop
+End
+P-B→O
+sin⁻¹(B/P)→T
+πT/180→E
+π-2E→A
+SJ(2Pcos(T)-BA)/(2π)→H
+SJO/π→W
+√(J((P²/2)*(A+sin(2T))-4PBcos(T)+B²A)/(2π))→G
+P→V
+If J=2 and K=1:2P-D→V
+If K=2:P-D→V
+ClrHome
+Output(1,1,"VO PEAK (V)")
+Output(1,14,round(SO,4))
+Output(2,1,"VO AVG EXACT")
+Output(2,14,round(H,4))
+Output(3,1,"VO AVG APPROX")
+Output(3,14,round(W,4))
+Output(4,1,"VRMS (V)")
+Output(4,14,round(G,4))
+Output(5,1,"PIV (V)")
+Output(5,14,round(V,4))
+Output(6,1,"ON AT (DEG)")
+Output(6,14,round(T,3))
+Output(7,1,"COND (DEG)")
+Output(7,14,round(180-2T,3))
+Output(8,1,"ID PEAK (MA)")
+Output(8,14,round(1000O/R,4))
+Output(9,1,"IO AVG (MA)")
+Output(9,14,round(1000H/R,4))
+Output(10,1,"ENTER = GRAPH")
+Pause 
+97→N
+seq(7.5(Z-1),Z,1,N)→L₁
+Psin(L₁)→L₂
+If J=1:SL₂→L₃
+If J=2:abs(L₂)→L₃
+(L₃>B)(L₃-B)→L₃
+SL₃→L₃
+FnOff 
+PlotsOff 
+0→Xmin
+720→Xmax
+90→Xscl
+⁻1.2P→Ymin
+2.4P→Ymax
+P/2→Yscl
+ClrDraw
+DispGraph
+Horizontal 0,12
+Vertical 360,22
+Horizontal H,15
+For(Z,1,N-1)
+Line(L₁(Z),L₂(Z),L₁(Z+1),L₂(Z+1),1,21)
+End
+For(Z,1,N-1)
+Line(L₁(Z),L₃(Z),L₁(Z+1),L₃(Z+1),1,10)
+End
+TextColor(23)
+Text(2,8,"VS PK=",P)
+TextColor(10)
+Text(14,8,"VO PK=",round(SO,3))
+TextColor(15)
+Text(26,8,"VO AVG=",round(H,3))
+TextColor(13)
+Text(38,8,"PIV=",round(V,3))
+TextColor(12)
+Text(2,160,"ON AT ",round(T,2),"°")
+Text(14,160,"COND ",round(180-2T,1),"°")
+Text(26,160,"VRMS=",round(G,3))
+Pause 
+TextColor(12)
+ClrHome
+Stop
+Lbl U
+0→θ
+Str1→Str9
+If length(Str9)>3
+Then
+If sub(Str9,length(Str9)-2,3)="OHM"
+sub(Str9,1,length(Str9)-3)→Str9
+End
+If length(Str9)>2
+Then
+If sub(Str9,length(Str9)-1,2)="HZ"
+sub(Str9,1,length(Str9)-2)→Str9
+End
+If length(Str9)>1
+Then
+If inString("FHVAW",sub(Str9,length(Str9),1))
+sub(Str9,1,length(Str9)-1)→Str9
+End
+1→θ
+If length(Str9)>3
+Then
+If sub(Str9,length(Str9)-2,3)="MEG"
+Then
+1ᴇ6→θ
+sub(Str9,1,length(Str9)-3)→Str9
+End
+End
+If θ=1 and length(Str9)>1
+Then
+inString("PNUMθKθG",sub(Str9,length(Str9),1))→θ
+If θ
+Then
+10^(3(θ-5))→θ
+sub(Str9,1,length(Str9)-1)→Str9
+Else
+1→θ
+End
+End
+θexpr(Str9)→θ
+θ
+Return
