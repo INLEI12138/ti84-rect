@@ -61,7 +61,16 @@ Input / 输入：`HALF-WAVE +` → `10` → `ENTER` → `ENTER`
 With the diode reversed (`HALF-WAVE −`) the output peak and average are −9.3 V and −2.8409 V; PIV is still 10 V.
 二极管反接（`HALF-WAVE −`）时，输出峰值和平均值为 −9.3 V、−2.8409 V，PIV 仍为 10 V。
 
+![HALF-WAVE − on the calculator](images/calc_half_minus.jpg)
+
+*HALF-WAVE −, VP = 10 V, VD = 0.7 V, R = 1 kΩ — gray: vs, blue: vo, orange: average of vo.*
+*HALF-WAVE −，VP = 10 V、VD = 0.7 V、R = 1 kΩ。灰色：vs，蓝色：vo，橙色：vo 的平均值。*
+
 With `VD = 0.75 V` and `R = 5 kΩ` / 当 `VD = 0.75 V`、`R = 5 kΩ` 时：VO PEAK 9.25 V, VO AVG 2.8171 V, VRMS 4.5279 V, ON AT 4.301°, COND 171.398°, ID PEAK 1.85 mA. The voltages do not depend on R. / 电压结果与 R 无关。
+
+![HALF-WAVE + on the calculator](images/calc_half_plus.jpg)
+
+*HALF-WAVE +, VP = 10 V, VD = 0.75 V, R = 5 kΩ.*
 
 All of these were checked on a TI-84 Plus CE and against numerical integration. / 以上结果都在 TI-84 Plus CE 实机上验证过，并与数值积分结果核对。
 
@@ -100,6 +109,7 @@ Other TI-84 Plus CE programs by INLEI / INLEI 的其他 TI-84 Plus CE 程序：
 - `RECT.8xp` — program for the calculator / 可直接发送到计算器的程序
 - `RECT.txt` — readable source / 可读的源码
 - `images/half_wave.svg`, `.png` — example circuit / 示例电路图
+- `images/calc_half_*.jpg` — photos of the calculator graph / 计算器波形图实拍
 
 ## License / 许可证
 
