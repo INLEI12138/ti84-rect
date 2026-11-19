@@ -3,10 +3,10 @@ If θ=π:Goto U
 Degree
 Float
 ClrHome
-Menu("RECTIFIER V2","HALF-WAVE +",H1,"HALF-WAVE -",H2,"FULL-WAVE CT",H3,"BRIDGE",H4,"QUIT",QT)
+Menu("RECTIFIER V3","HALF-WAVE +",H1,"HALF-WAVE -",H2,"FULL-WAVE CT",H3,"BRIDGE",H4,"QUIT",QT)
 Lbl QT
 ClrHome
-Stop
+Return
 Lbl H1
 1→S
 1→K
@@ -51,16 +51,37 @@ Then
 prgmRECT
 Ans→R
 End
-If P≤0 or R≤0 or D<0
+0→C
+""→Str1
+Input "C FILTER (0)=",Str1
+If length(Str1)
+Then
+π→θ
+prgmRECT
+Ans→C
+End
+60→F
+If C>0
+Then
+""→Str1
+Input "F LINE (60HZ)=",Str1
+If length(Str1)
+Then
+π→θ
+prgmRECT
+Ans→F
+End
+End
+If P≤0 or R≤0 or D<0 or C<0 or F≤0
 Then
 Disp "CHECK INPUTS"
-Stop
+Return
 End
 KD→B
 If B≥P
 Then
 Disp "NEVER CONDUCTS"
-Stop
+Return
 End
 P-B→O
 sin⁻¹(B/P)→T
@@ -72,6 +93,7 @@ SJO/π→W
 P→V
 If J=2 and K=1:2P-D→V
 If K=2:P-D→V
+If C>0:Goto CF
 ClrHome
 Output(1,1,"VO PEAK (V)")
 Output(1,14,round(SO,4))
@@ -93,12 +115,23 @@ Output(9,1,"IO AVG (MA)")
 Output(9,14,round(1000H/R,4))
 Output(10,1,"ENTER = GRAPH")
 Pause 
+Lbl GR
 97→N
 seq(7.5(Z-1),Z,1,N)→L₁
 Psin(L₁)→L₂
 If J=1:SL₂→L₃
 If J=2:abs(L₂)→L₃
 (L₃>B)(L₃-B)→L₃
+If C>0
+Then
+e^(⁻7.5/(360FRC))→W
+OW^(60-24J)→M
+For(Z,1,N)
+If Z>1:MW→M
+max(L₃(Z),M)→M
+M→L₃(Z)
+End
+End
 SL₃→L₃
 FnOff 
 PlotsOff 
@@ -124,17 +157,58 @@ Text(2,8,"VS PK=",P)
 TextColor(10)
 Text(14,8,"VO PK=",round(SO,3))
 TextColor(15)
-Text(26,8,"VO AVG=",round(H,3))
+If C=0:Text(26,8,"VO AVG=",round(H,3))
+If C>0:Text(26,8,"VDC=",round(H,3))
 TextColor(13)
 Text(38,8,"PIV=",round(V,3))
 TextColor(12)
+If C=0
+Then
 Text(2,160,"ON AT ",round(T,2),"°")
 Text(14,160,"COND ",round(180-2T,1),"°")
 Text(26,160,"VRMS=",round(G,3))
+Else
+Text(2,160,"VR PP=",round(U,3))
+Text(14,160,"COND ",round(180Q/π,1),"°")
+Text(26,160,"F RIP=",JF)
+End
 Pause 
 TextColor(12)
 ClrHome
-Stop
+Return
+Lbl CF
+O/(JFRC)→U
+S(O-U/2)→H
+√(2U/O)→Q
+O/R→I
+√(2O/U)/J→M
+P+O→V
+If K=2:P-D→V
+ClrHome
+Output(1,1,"VO PEAK (V)")
+Output(1,14,round(SO,4))
+Output(2,1,"VDC (V)")
+Output(2,14,round(H,4))
+Output(3,1,"VR PP (V)")
+Output(3,14,round(U,4))
+Output(4,1,"F RIPPLE (HZ)")
+Output(4,14,JF)
+Output(5,1,"PIV (V)")
+Output(5,14,round(V,4))
+Output(6,1,"COND (DEG)")
+Output(6,14,round(180Q/π,3))
+Output(7,1,"IL (MA)")
+Output(7,14,round(1000I,4))
+Output(8,1,"ID AVG (MA)")
+Output(8,14,round(1000I(1+πM),4))
+Output(9,1,"ID MAX (MA)")
+Output(9,14,round(1000I(1+2πM),4))
+If U>O
+Output(10,1,"RIPPLE TOO BIG: APPROX")
+If U≤O
+Output(10,1,"ENTER = GRAPH")
+Pause 
+Goto GR
 Lbl U
 0→θ
 Str1→Str9

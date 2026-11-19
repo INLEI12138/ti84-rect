@@ -1,8 +1,8 @@
 # RECT — Rectifier solver with waveform plot for TI-84 Plus CE
 
-A TI-BASIC program that solves diode rectifier circuits with the constant-voltage-drop (CVD) diode model and plots `vs` and `vo` with the key values marked on the graph.
+A TI-BASIC program that solves diode rectifier circuits with the constant-voltage-drop (CVD) diode model, with or without a filter capacitor, and plots `vs` and `vo` with the key values marked on the graph. The RECTIFIER menu of [DIODE](https://github.com/INLEI12138/ti84-diode) opens this program.
 
-一个 TI-84 Plus CE 上的 TI-BASIC 整流电路求解程序：用二极管恒压降（CVD）模型计算，并画出 `vs` 和 `vo` 的波形，关键数值直接标在图上。
+一个 TI-84 Plus CE 上的 TI-BASIC 整流电路求解程序：用二极管恒压降（CVD）模型计算，可带或不带滤波电容，并画出 `vs` 和 `vo` 的波形，关键数值直接标在图上。[DIODE](https://github.com/INLEI12138/ti84-diode) 的 RECTIFIER 菜单也会打开这个程序。
 
 ---
 
@@ -17,6 +17,7 @@ A TI-BASIC program that solves diode rectifier circuits with the constant-voltag
 3. Graph: two periods of `vs` (gray) and `vo` (blue), the average output as an orange line, and `VS PK`, `VO PK`, `VO AVG`, `PIV`, `ON AT`, `COND`, `VRMS` written on the plot in matching colours
 4. Unit suffixes on every input (same parser as [DIODE](https://github.com/INLEI12138/ti84-diode)): `10V`, `1K`, `4.7K`, `0.75V` — `M` is milli, `MEG` is mega
 5. `VD` defaults to `0.7 V` and `R` to `1 kΩ` — just press `ENTER`
+6. **Filter capacitor** (V3): enter `C` (e.g. `100U`; `ENTER` = none) and the line frequency (default 60 Hz). Results: `VO PEAK`, `VDC`, ripple `VR PP`, ripple frequency, `PIV`, conduction angle, `IL`, average and peak diode current (standard small-ripple approximations). The graph shows the smoothed output and VDC
 
 ## 功能
 
@@ -29,6 +30,7 @@ A TI-BASIC program that solves diode rectifier circuits with the constant-voltag
 3. 波形图：两个周期的 `vs`（灰色）和 `vo`（蓝色），橙色水平线是输出平均值；`VS PK`、`VO PK`、`VO AVG`、`PIV`、`ON AT`、`COND`、`VRMS` 用同样的颜色标在图上
 4. 所有输入都能带单位（和 [DIODE](https://github.com/INLEI12138/ti84-diode) 用同一套识别代码）：`10V`、`1K`、`4.7K`、`0.75V`。`M` 是毫，`MEG` 才是兆
 5. `VD` 默认 `0.7 V`，`R` 默认 `1 kΩ`，直接按 `ENTER` 即可
+6. **滤波电容**（V3）：输入 `C`（例如 `100U`，直接回车表示不接电容）和电源频率（默认 60 Hz）。输出 `VO PEAK`、`VDC`、纹波峰峰值 `VR PP`、纹波频率、`PIV`、导通角、`IL`、二极管平均和峰值电流（采用常用的小纹波近似公式）。波形图显示滤波后的输出和 VDC
 
 ---
 
@@ -72,6 +74,12 @@ With `VD = 0.75 V` and `R = 5 kΩ` / 当 `VD = 0.75 V`、`R = 5 kΩ` 时：VO PE
 
 *HALF-WAVE +, VP = 10 V, VD = 0.75 V, R = 5 kΩ.*
 
+With a filter capacitor / 带滤波电容：`HALF-WAVE +`, `10`, `ENTER`, `ENTER`, `100U`, `ENTER` (60 Hz)
+
+| VO PEAK | VDC | VR PP | PIV | COND | IL | ID AVG | ID MAX |
+|---|---|---|---|---|---|---|---|
+| 9.3 V | 8.525 V | 1.55 V | 19.3 V | 33.08° | 9.3 mA | 110.51 mA | 211.72 mA |
+
 All of these were checked on a TI-84 Plus CE and against numerical integration. / 以上结果都在 TI-84 Plus CE 实机上验证过，并与数值积分结果核对。
 
 ---
@@ -86,7 +94,7 @@ With `B = K·VD` (K = 1, or 2 for a bridge), `θ₁ = sin⁻¹(B / VP)` and `J =
 
 ## Notes / 注意事项
 
-- No filter capacitor. For a capacitor-filtered rectifier use the RECTIFIER menu of [DIODE](https://github.com/INLEI12138/ti84-diode). / 不含滤波电容；带电容的整流电路请用 [DIODE](https://github.com/INLEI12138/ti84-diode) 的 RECTIFIER 菜单。
+- With a capacitor, PIV is `VP + VO PEAK` for half-wave and center-tapped and `VP − VD` for a bridge; a warning appears if the ripple is larger than the peak (the approximation no longer holds). / 带电容时，半波和中心抽头的 PIV 为 `VP + VO PEAK`，桥式为 `VP − VD`；纹波超过峰值时会提示近似公式已不适用。
 - The graph overwrites the window settings, turns off `Y=` functions and stat plots, and uses lists `L₁`–`L₃`. / 画图会覆盖窗口设置，关闭 `Y=` 函数和统计图，并使用列表 `L₁`–`L₃`。
 - Needs a colour CE model. / 需要彩屏 CE 型号。
 
